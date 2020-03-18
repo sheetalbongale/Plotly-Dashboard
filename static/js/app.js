@@ -32,6 +32,7 @@ function pieChart(data) {
     values : values,
     labels : labels,
     type : "pie",
+    textposition: "inside",
     hovertext : hovertext
   }];
 
