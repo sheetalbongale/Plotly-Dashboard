@@ -18,7 +18,7 @@ app = Flask(__name__)
 # Database Setup
 #################################################
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///db/bellybutton.sqlite"
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///data/db/bellybutton.sqlite"
 db = SQLAlchemy(app)
 
 # reflect an existing database into a new model
@@ -95,6 +95,23 @@ def samples(sample):
         "otu_labels": sample_data.otu_label.tolist(),
     }
     return jsonify(data)
+
+@app.route("/wfreq/<sample>")
+def wfreq(sample):
+    selection = [
+    Samples_Metadata.sample,
+    Samples_Metadata.WFREQ,
+    ]
+
+    wfreq_results = db.session.query(*selection).filter(Samples_Metadata.sample == sample).all()
+
+    sample_wfreq = {}
+
+    for result in wfreq_results:
+        sample_wfreq["sample"] = result[0]
+        sample_wfreq["WFREQ"] = result[1]
+
+    return jsonify(sample_wfreq)
 
 
 if __name__ == "__main__":

@@ -1,7 +1,5 @@
 function buildMetadata(sample) {
   // @TODO: Complete the following function that builds the metadata panel 
-  // BONUS: Build the Gauge Chart
-  // buildGauge(data.WFREQ);
 
   // Use d3 to select the panel with id of `#sample-metadata`
   let metadataSelector = d3.select('#sample-metadata');
@@ -34,12 +32,11 @@ function pieChart(data) {
     values : values,
     labels : labels,
     type : "pie",
-    textposition: "inside",
     hovertext : hovertext
   }];
 
   let layout = {
-      title: '<b> Belly Button Pie Chart </b>',
+      title: '<b> Belly Button Pie Chart </b> <br> Top 10 Samples </b>',
       plot_bgcolor: 'rgba(0, 0, 0, 0)',
       paper_bgcolor: 'rgba(0, 0, 0, 0)',
   };
@@ -63,12 +60,13 @@ function bubbleChart(data) {
     marker: {
       size: markersize,
       color: markercolors,
+      colorscale: "balance"
     },
     text: textvalues
   }];
 
   let layout ={
-    title:"<b> Belly Button Bubble Chart </b>",
+    title:"<b> Belly Button Bubble Chart </b> <br> Samples per OTU ID</b>",
     xaxis: {
       title: 'OTU ID',
     },
@@ -84,6 +82,8 @@ function bubbleChart(data) {
 }
 
 // ### Bonus: Gauge Chart ###
+  // BONUS: Build the Gauge Chart
+  // buildGauge(data.WFREQ);
 function gaugeChart(data) {
   // Enter a speed between 0 and 180
   let degree = parseInt(data.WFREQ) * (180/10);
@@ -143,7 +143,7 @@ function gaugeChart(data) {
         }
       }],
 
-    title: '<b> Belly Button Washing Frequency</b> <br> Scrub Per Week',
+    title: '<b> Belly Button Washing Frequency</b> <br> Scrubs per Week',
     xaxis: {zeroline:false, showticklabels:false,
                showgrid: false, range: [-1, 1]},
     yaxis: {zeroline:false, showticklabels:false,
@@ -158,9 +158,9 @@ function gaugeChart(data) {
 function buildCharts(sample) {
 
   // Use `d3.json` to fetch the sample data for the plots
-  d3.json(`/wfreq/${sample}`).then ( wdata =>
+  d3.json(`/wfreq/${sample}`).then ( data =>
     
-    gaugeChart(wdata)
+    gaugeChart(data)
   );
 
   d3.json(`/samples/${sample}`).then( data =>{
